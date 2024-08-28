@@ -85,7 +85,7 @@ export default async function PeopleList(props: peopleListProps) {
                             {person.iwi && (
                                 <ul className='iwi'>
                                     {person.iwi && person.iwi.map((iwiInstance: iwiProps, index: number) => (
-                                        <li key={index}>{iwi[iwiInstance._ref].name}</li>
+                                        <li key={index}>{iwi[iwiInstance._ref!].name}</li>
                                     ))}
                                 </ul>
                             )}
