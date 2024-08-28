@@ -8,8 +8,8 @@
 }
 
 .resource-links.list ul {
-    list-style-position: inside;
     list-style-type: disc;
+    margin-left: 1.125rem;
 }
 
 .resource-links.grid ul {

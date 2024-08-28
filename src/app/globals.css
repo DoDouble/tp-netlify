@@ -64,7 +64,8 @@ body {
     @apply mb-4;
   }
 
-  button {
+  button.btn,
+  .btn {
     @apply bg-slate-200 hover:bg-slate-400 rounded-md mt-4 px-4 py-2
   }
 
@@ -99,4 +100,44 @@ body {
   animation-duration: 750ms;
   animation-fill-mode: both;
   animation-timing-function: ease-in-out;
+}
+
+[hidden] {
+  display: none;
+}
+
+#modal-wrapper {
+  opacity: 0;
+  transition: .75s;
+}
+
+body.modal-open,
+.modal-open [data-overlay-container="true"] {
+  overflow: hidden;
+}
+
+.modal-open #modal-wrapper {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  position: fixed;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  opacity: 1;
+  top: 0;
+  width: 100vw;
+}
+
+#modal-wrapper .modal {
+  background-color: #efefef;
+  height: 95%;
+  padding: 3rem 1.5rem;
+  width: 80%;
+}
+
+.modal-close {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
 }

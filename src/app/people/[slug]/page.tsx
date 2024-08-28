@@ -73,7 +73,7 @@ export default async function PersonPage({
                     ) : null}
 
                     {iwi_plural ? (
-                        <IwiList iwi_plural={iwi_plural} />
+                        <IwiList iwiPlural={iwi_plural} />
                     ) : null}
 
                     {profile && profile.length > 0 && (

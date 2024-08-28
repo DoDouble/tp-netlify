@@ -2,6 +2,7 @@ import { ResourceLink } from '@/app/components/_blocks/resourceLink/resourceLink
 import Image from "next/image";
 import imageUrl from "@/helpers/imageUrl";
 import replaceWithBr from "@/helpers/replaceWithBr";
+import AccordionBlock from "@/app/components/accordionBlock";
 
 import './resourceLinksWrapper.css'
 import styles from '@/app/components/_blocks/resourceLink/resourceLink.module.css'
@@ -12,18 +13,20 @@ export type ResourceLinksWrapperProps = {
     title: string;
     layout: string;
     resourceLinks: Array<typeof ResourceLink>;
+    showMoreResourcesLink?: boolean;
 };
 
 export const ResourceLinksWrapper = (props: ResourceLinksWrapperProps) => {
 
-    const { title, layout, resourceLinks } = props;
+    // console.log('props:', props);
+    const { title, layout, resourceLinks, showMoreResourcesLink } = props;
 
     return (
-        <div className={`resource-links ${layout} mb-8`}>
+        <div id={title.toLowerCase().replace(" ", "-")} className={`resource-links ${layout} mb-8`}>
             <div className='h3'>
                 {title}
             </div>
-            <ul className={`${layout == 'list' ? 'list-disc list-inside' : ''}`}>
+            <ul className={`${layout == 'list' ? 'list-disc' : ''}`}>
                 {resourceLinks && resourceLinks.map((link: any) => (
                     <li key={link?._key}>
                         {link.image && (
@@ -40,9 +43,14 @@ export const ResourceLinksWrapper = (props: ResourceLinksWrapperProps) => {
                     </li>
                 ))}
             </ul>
-            <div className='link-more-resources'>
-                <a href="/resources">View more resources here &gt;</a>
-            </div>
+            {showMoreResourcesLink && (
+                <div className='link-more-resources'>
+                    <a href="/resources">View more resources here &gt;</a>
+                </div>
+            )}
+            {layout == 'accordion' && (
+                <AccordionBlock type="resources" title={title} items={resourceLinks} layout={layout} />
+            )}
         </div>
     )
 };

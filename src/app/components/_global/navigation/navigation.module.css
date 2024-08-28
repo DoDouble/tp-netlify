@@ -1,3 +1,21 @@
 .nav {
     @apply container mx-auto py-4;
 }
+
+.submenu {
+    position: relative;
+}
+
+.submenu ul {
+    background-color: #efefef;
+    display: none;
+    padding: .25rem .5rem;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: max-content;
+}
+
+.submenu:hover ul {
+    display: block;
+}

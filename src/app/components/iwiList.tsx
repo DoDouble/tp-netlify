@@ -1,31 +1,23 @@
 import Link from "next/link";
+import { iwiProps } from "@/app/types/types"
 
-type slugProps = {
-    _type: string;
-    current: string;
+export type iwiCollectionProps = {
+    iwiPlural: Array<iwiProps>;
+    target: 'iwi' | 'stories';
 }
 
-type iwiProps = {
-    _id: string;
-    name: string;
-    slug: slugProps;
-}
-
-type iwiCollectionProps = {
-    iwi_plural: Array<iwiProps>;
-}
-
-const IwiList = ( iwiCollection: iwiCollectionProps ) => {
+const IwiList = ( props: iwiCollectionProps ) => {
+    const {iwiPlural, target} = props;
 
     return <div className="mb-4">
         <strong>Iwi:</strong>
         <ul className="list-disc list-inside ml-2">
-            {iwiCollection.iwi_plural.map((iwi: iwiProps) => (
+            {props.iwiPlural.map((iwi: iwiProps) => (
                 <li
                     key={iwi._id}
                 >
                     <Link
-                        href={`/iwi/${iwi.slug.current}`}
+                        href={target == 'stories' ? `/stories?iwi=${iwi.slug.current}` : `/iwi/${iwi.slug.current}`}
                     >
                         {iwi?.name}
                     </Link>

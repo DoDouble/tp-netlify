@@ -30,10 +30,7 @@ const STORY_QUERY = `*[
   summary,
   hero_image,
   slug,
-  "tags": tags[]->{
-    "label": name,
-    "value": slug.current
-  },
+  myTags,
   body,
   details,
   video,
@@ -66,11 +63,11 @@ export default async function StoryPage({
     hero_image,
     body,
     iwi_plural,
-    tags,
+    myTags,
     timecodes,
     resources,
     author,
-    // topic,
+    topic,
   } = story;
 
   const breadcrumbs = [
@@ -114,18 +111,18 @@ export default async function StoryPage({
             </div>
           )}
 
-          {/* {topic && (
+          {topic && (
             <div className="mb-4">
               <strong>Topic:</strong> <Link href={`/stories#${topic?.slug?.current}`}>{topic.name}</Link>
             </div>
-          )} */}
+          )}
 
-          {tags && (
-            <TagList tags={tags} />
+          {myTags && (
+            <TagList tags={myTags} />
           )}
 
           {iwi_plural && iwi_plural.length > 0 && (
-            <IwiList iwiPlural={iwi_plural} target="stories" />
+              <IwiList iwiPlural={iwi_plural} target="stories" />
           )}
         </div>
         <div className="w-1/2 flex gap-4">
@@ -144,7 +141,7 @@ export default async function StoryPage({
             </h3>
 
             <Link
-              href={`/people/${author.slug.current}`}
+                href={`/people/${author.slug.current}`}
             >
               {author?.name}
             </Link>

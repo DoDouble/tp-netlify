@@ -1,25 +1,24 @@
-import styles from './tagList.module.css'
+import { tagProps } from '@/app/types/types';
 
-export interface tagProps {
-    _key: string;
-    _type: string;
-    label: string;
-    value: string;
-}
+import styles from './tagList.module.css'
 
 type tagListProps = {
     tags: tagProps[];
+    selectedTag?: string | undefined | null;
 }
 
-export const TagList: React.FC<tagListProps> = ({ tags }) => {
+export const TagList: React.FC<tagListProps> = ({ tags, selectedTag }) => {
     return <ul className={styles.tags}>
         <li className="inline-block font-bold">Tags:</li>
-        {tags.map((tag) => (
+        {tags.map((tag, index) => (
             <li
-                className="inline-block rounded-lg bg-gray-200 px-3 py-1 dark:bg-gray-800 capitalize"
-                key={tag.label}
+                key={index}
+                className={`inline-block rounded-lg ${selectedTag == tag.value ? 'bg-green-200' : 'bg-gray-200'} px-3 py-1 dark:bg-gray-800 capitalize`}
             >
-                {tag?.label}
+                {selectedTag == tag.value
+                    ? <>{tag.value}</>
+                    : <a className='no-underline' href={`/stories?tag=${tag.value}`}>{tag?.label}</a>
+                }
             </li>
         ))}
     </ul>

@@ -1,37 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import imageUrl from "@/helpers/imageUrl";
-import { tagProps, TagList } from "./tagList";
+import { TagList } from "./tagList";
 
-type storySlugProps = {
-    _type: 'slug';
-    current: string;
-}
-
-type storyAuthorProps = {
-    name: string;
-    slug: object;
-}
-
-type storyProps = {
-    _id: string;
-    _createdAt: string;
-    author: storyAuthorProps;
-    hero_image: object;
-    myTags: tagProps[];
-    slug: storySlugProps;
-    title: string;
-}
-
-type storiesListProps = {
-    stories: storyProps[] | any[];
-}
+import { storyProps, storiesListProps } from "@/app/types/types";
 
 export default function storyCardList( props: storiesListProps ) {
-    const { stories } = props;
+    const { stories, selectedTag } = props;
 
     return (
-        <ul className="grid grid-cols-1 gap-12 lg:grid-cols-3 mb-16">
+        <ul className="grid grid-cols-1 gap-6 md:gap-10 lg:gap-12 lg:grid-cols-3 mb-8 md:mb-16">
             {stories.map((story: storyProps) => (
                 <li
                     key={story._id}
@@ -59,7 +37,10 @@ export default function storyCardList( props: storiesListProps ) {
                         Created on: {new Date(story?._createdAt).toLocaleDateString()}
                     </p>
                     {story?.myTags ? (
-                        <TagList tags={story?.myTags} />
+                        <TagList tags={story?.myTags} selectedTag={selectedTag} />
+                    ) : null}
+                    {story?.tags ? (
+                        <TagList tags={story?.tags} selectedTag={selectedTag} />
                     ) : null}
                 </li>
             ))}

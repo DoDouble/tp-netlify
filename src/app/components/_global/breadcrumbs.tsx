@@ -13,7 +13,7 @@ export default function Breadcrumbs(props: breadcrumbProps) {
             <Link href="/">Home</Link>
             <div className="divider"></div>
             {crumbs && crumbs.map((crumb: string[]) => (
-                <div key={crumb[0]}>
+                <div key={crumb[0]} className="flex gap-2">
                     <Link href={crumb[0]}>{crumb[1]}</Link>
                     <div className="divider"></div>
                 </div>

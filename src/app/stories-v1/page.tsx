@@ -28,32 +28,29 @@ const iwiQueryCondition = (iwi: string | null) => {
     : ``;
 }
 
-// const tagQueryCondition = (tag: string | null) => {
-//   return tag !== null
-//     ? `
-//       && (
-//         myTags[].value match "${tag}"
-//       )`
-//     : ``;
-// }
+const tagQueryCondition = (tag: string | null) => {
+  return tag !== null
+    ? `
+      && (
+        myTags[].value match "${tag}"
+      )`
+    : ``;
+}
 
 const storiesQuery = (keyword: string | null, iwi: string | null, tag: string | null) => {
   const query = `*[
       _type == "story"
       && defined(slug.current)`
-    + searchQueryCondition(keyword)
-    + iwiQueryCondition(iwi)
-    // + tagQueryCondition(tag)
+      + searchQueryCondition(keyword)
+      + iwiQueryCondition(iwi)
+      + tagQueryCondition(tag)
     + `]{
         _id,
         title,
         slug,
         hero_image,
         _createdAt,
-        "tags": tags[]->{
-            "label": name,
-            "value": slug.current
-          },
+        myTags,
         "author": *[_type=='person' && _id == ^.author._ref][0]{
           "name": firstName + " " + lastName,
           slug
@@ -65,44 +62,26 @@ const storiesQuery = (keyword: string | null, iwi: string | null, tag: string | 
   return query;
 };
 
-const tagStoriesQuery = (tag: string) => {
-  const query = `*[
-      _type == "contentTag"
-      && name == "${tag}"
-    ]{
-        _id,
-        name,
-        "slug": slug.current,
-        "stories": *[_type=='story' && references(^._id)]{
-          _id,
-          _createdAt,
-          title,
-          slug,
-          hero_image,
-          "tags": tags[]->{
-            "label": name,
-            "value": slug.current
-          },
-          "author": *[_type=='person' && _id == ^.author._ref][0]{
-            "name": firstName + " " + lastName,
-            slug
-          }
-        }
-      }
-      |order(date desc)
-    `;
-  console.log('tagStoriesQuery:', query);
-  return query;
-};
-
-const FEATURED_TAGS_QUERY = `*[
-  _type == "contentTag"
-  && featured == true
+const TOPIC_QUERY = `*[
+  _type == "topic"
 ]{
   _id,
   name,
-  "slug": slug.current,
-}|order(name)`;
+  slug,
+  tagline,
+  "stories": *[_type=='story' && references(^._id)]{
+    _id,
+    _createdAt,
+    title,
+    slug,
+    hero_image,
+    myTags,
+    "author": *[_type=='person' && _id == ^.author._ref][0]{
+      "name": firstName + " " + lastName,
+      slug
+    }
+  }
+}`;
 
 const IWI_QUERY = `*[
   _type == "iwi"
@@ -118,20 +97,13 @@ export default async function StoriesPage({ searchParams }: { searchParams: { [k
   const iwiFilter = searchParams?.iwi || null;
   const tagFilter = searchParams?.tag?.toLowerCase() || null;
 
-  let stories;
-
-  if (tagFilter !== null) {
-    stories = await sanityFetch<SanityDocument[]>({ query: tagStoriesQuery(tagFilter) });
-    stories = await stories[0].stories;
-  } else {
-    stories = await sanityFetch<SanityDocument[]>({ query: storiesQuery(searchQuery, iwiFilter, tagFilter) });
-  }
+  const stories = await sanityFetch<SanityDocument[]>({query: storiesQuery(searchQuery, iwiFilter, tagFilter) });
 
   console.log('searchParams:', searchParams, typeof searchParams);
 
-  const featuredTags = await sanityFetch<SanityDocument[]>({ query: FEATURED_TAGS_QUERY });
+  const topics = await sanityFetch<SanityDocument[]>({query: TOPIC_QUERY });
 
-  const allIwi = await sanityFetch<SanityDocument[]>({ query: IWI_QUERY });
+  const allIwi = await sanityFetch<SanityDocument[]>({query: IWI_QUERY });
 
   let iwiLabel = null;
 
@@ -141,12 +113,12 @@ export default async function StoriesPage({ searchParams }: { searchParams: { [k
     }
   });
 
-  let filterTags: any[] = [];
+  let filterTopics:any[] = [];
 
-  featuredTags.forEach((tag) => {
-    filterTags.push({
-      name: tag.name,
-      slug: tag.slug,
+  topics.forEach((topic) => {
+    filterTopics.push({
+      name: topic.name,
+      slug: topic.slug,
     });
   });
 
@@ -157,8 +129,8 @@ export default async function StoriesPage({ searchParams }: { searchParams: { [k
       </h1>
 
       <FilterTabs
-        tags={filterTags}
-        selectedTag={tagFilter}
+        topics={filterTopics}
+        selectedTopic=""
         iwi={allIwi}
         selectedIwi={iwiFilter}
       />
@@ -186,6 +158,27 @@ export default async function StoriesPage({ searchParams }: { searchParams: { [k
       )}
 
       <StoryCardList stories={stories} selectedTag={tagFilter} />
+
+      <hr className="mb-8" />
+
+      {topics.map((topic) => (
+        <div id={topic?.slug?.current} key={topic._id}>
+          <h2 className="bg-slate-600 text-white px-4 py-2">{topic.name}</h2>
+          <div className="px-4 pb-4">
+            <p>{topic.tagline}</p>
+            <h3>Stories:</h3>
+            {
+              topic?.stories && topic?.stories.length > 0
+              ? (
+                <StoryCardList stories={topic?.stories} selectedTag={tagFilter} />
+              )
+              : 'There are no stories in this topic.'
+            }
+
+          </div>
+        </div>
+      ))}
+
     </main>
   );
 }

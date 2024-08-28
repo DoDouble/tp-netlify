@@ -1,0 +1,12 @@
+.accordion__card {
+}
+
+.accordion__title {
+}
+
+.accordion__content {
+}
+
+[aria-expanded="true"] .vert {
+    display: none;
+}
