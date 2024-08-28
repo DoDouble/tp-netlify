@@ -48,7 +48,7 @@ export default async function Navigation({ }) {
       <nav className={styles.nav}>
         <ul className="flex gap-4">
           {mainNavigation && mainNavigation?.navigationItems && mainNavigation?.navigationItems.map((item: navigationItemProps) => (
-            <li key={item._key} className={item._type === 'navigationWrapper' ? styles.submenu : null}>
+            <li key={item._key} className={item._type === 'navigationWrapper' ? styles.submenu : ''}>
               {item._type === 'navigationItem' && (
                 <a href={item.url}>{item.title}</a>
               )}
