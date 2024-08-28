@@ -1,0 +1,3 @@
+.tags {
+    @apply text-sm flex gap-2 items-center mb-4;
+}

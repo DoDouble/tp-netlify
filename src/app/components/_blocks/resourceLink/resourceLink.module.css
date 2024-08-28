@@ -1,0 +1,11 @@
+.resourceLink {
+
+}
+
+.resourceLinkWithImage {
+    @apply bg-gray-100 rounded-md p-4;
+}
+
+.description {
+    white-space: pre-line;
+}

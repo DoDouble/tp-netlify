@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import 'scss/typography'; */
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} */
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+
+  h1 {
+    @apply text-4xl font-bold tracking-tighter mb-8;
+  }
+
+  h2 {
+    @apply text-xl font-bold mb-6;
+  }
+
+  h3,
+  .h3 {
+    @apply text-lg font-bold mb-4;
+  }
+
+  blockquote {
+    @apply border-l-2 border-slate-200 pl-8 italic;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  p {
+    @apply mb-4;
+  }
+
+  button {
+    @apply bg-slate-200 hover:bg-slate-400 rounded-md mt-4 px-4 py-2
+  }
+
+  .tag {
+    @apply inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800 capitalize;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    gap: .5rem;
+  }
+
+  .breadcrumbs .divider::after {
+    content: '>';
+  }
+}
+
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeSlideUp {
+  animation-name: fadeSlideUp;
+  animation-duration: 750ms;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+}

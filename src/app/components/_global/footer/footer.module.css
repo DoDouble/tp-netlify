@@ -1,0 +1,13 @@
+.footer {
+    @apply w-full bg-slate-600 text-white mt-16 py-16;
+}
+
+.footer > div {
+    @apply container mx-auto;
+}
+
+.footer nav {
+    flex-grow: 1;
+    max-width: unset;
+    width: unset;
+}

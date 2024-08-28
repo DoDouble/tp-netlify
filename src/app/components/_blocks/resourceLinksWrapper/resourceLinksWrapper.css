@@ -1,0 +1,31 @@
+.link-more-resources {
+    margin-bottom: 2.5rem;
+    padding-top: .5rem;
+}
+
+.resource-links ul li {
+    margin-bottom: 1rem;
+}
+
+.resource-links.list ul {
+    list-style-position: inside;
+    list-style-type: disc;
+}
+
+.resource-links.grid ul {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    list-style-type: none;
+}
+
+.resource-links.grid ul li {
+    background-color: #efefef;
+    border-radius: 0.375rem;
+    /* margin-bottom: 0; */
+    padding: 1rem;
+}
+
+.resource-links.flat ul {
+    list-style-type: none;
+}
