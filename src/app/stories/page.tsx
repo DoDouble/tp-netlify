@@ -2,6 +2,7 @@ import { SanityDocument } from "next-sanity";
 import { sanityFetch } from "@/sanity/client";
 import StoryCardList from "../components/storyCardList";
 import FilterTabs from "../components/_blocks/filterTabs/filterTabs";
+import { iwiProps } from "../types/types";
 
 type searchParamsProps = {
   q?: string;
@@ -133,9 +134,16 @@ export default async function StoriesPage({ searchParams }: { searchParams: { [k
 
   const allIwi = await sanityFetch<SanityDocument[]>({ query: IWI_QUERY });
 
+  let iwiArray: iwiProps[] = [];
   let iwiLabel = null;
 
   allIwi.forEach((iwi) => {
+    iwiArray.push({
+      _id: iwi._id,
+      name: iwi.name,
+      slug: iwi.slug,
+    });
+
     if (iwi.slug.current == iwiFilter) {
       iwiLabel = iwi.name;
     }
@@ -159,7 +167,7 @@ export default async function StoriesPage({ searchParams }: { searchParams: { [k
       <FilterTabs
         tags={filterTags}
         selectedTag={tagFilter}
-        iwi={allIwi}
+        iwi={iwiArray}
         selectedIwi={iwiFilter}
       />
 
