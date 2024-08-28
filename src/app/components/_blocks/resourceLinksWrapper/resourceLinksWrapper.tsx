@@ -49,7 +49,7 @@ export const ResourceLinksWrapper = (props: ResourceLinksWrapperProps) => {
                 </div>
             )}
             {layout == 'accordion' && (
-                <AccordionBlock type="resources" title={title} items={resourceLinks} layout={layout} />
+                <AccordionBlock type="resources" title={title} showTitle={true} items={resourceLinks} layout={layout} />
             )}
         </div>
     )
